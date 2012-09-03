@@ -1,4 +1,4 @@
-## bbnano
+## bbnano [![Build Status](https://secure.travis-ci.org/Two-Screen/bbnano.png)](http://travis-ci.org/Two-Screen/bbnano)
 
 Extension for [Backbone.js] to sync with [CouchDB] using [nano] on [Node.js].
 
