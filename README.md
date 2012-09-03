@@ -1,5 +1,4 @@
-Backbone Cradle
----------------
+## bbnano
 
 Extension for [Backbone.js] to sync with [CouchDB] using [nano] on [Node.js].
 
@@ -8,7 +7,7 @@ Extension for [Backbone.js] to sync with [CouchDB] using [nano] on [Node.js].
  [nano]: https://github.com/dscape/nano
  [Node.js]: http://nodejs.org/
 
-### Install
+### Installing
 
     npm install bbnano
 
@@ -20,7 +19,10 @@ Extension for [Backbone.js] to sync with [CouchDB] using [nano] on [Node.js].
     var doc = new bbnano.Model();
     doc.save({ message: 'Hello world!' });
 
-### Run tests
+### Hacking the code
 
+    git clone https://github.com/Two-Screen/bbnano.git
+    cd bbnano
+    npm install
     curl -X PUT http://localhost:5984/bbnano_test
     npm test
