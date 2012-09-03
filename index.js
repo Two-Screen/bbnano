@@ -10,8 +10,13 @@ var getDatabase = function(obj) {
 
 // A model subclass that uses our sync.
 var Model = Backbone.Model.extend({
-    // Override this and set to a function or instance of a database.
-    database: null,
+    // Use the collection database by default. Override this and set it to a
+    // function or instance of a database to use another.
+    database: function() {
+        if (this.collection) {
+            return getDatabase(this.collection);
+        }
+    },
 
     // Use `_id` as the identifier, to match CouchDB.
     idAttribute: '_id',
@@ -48,7 +53,7 @@ var Model = Backbone.Model.extend({
 
 // A collection subclass that uses our sync.
 var Collection = Backbone.Collection.extend({
-    // Override this and set to a function or instance of a database.
+    // Override this and set it to a function or instance of a database.
     database: null,
 
     // The call to read all the documents. You usually want to override this
