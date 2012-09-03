@@ -16,6 +16,6 @@
         "tap": "0.3"
     },
     "scripts": {
-        "test": "tap tests/*.js"
+        "test": "tap test.js"
     }
 }
