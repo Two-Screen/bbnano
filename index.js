@@ -66,8 +66,8 @@ var Collection = Backbone.Collection.extend({
 
         switch (method) {
         case 'read':
-            model.read(db, function(err, docs) {
-                err ? error(err) : success(docs);
+            model.read(db, function(err, res) {
+                err ? error(err) : success(res.rows);
             });
             break;
         }

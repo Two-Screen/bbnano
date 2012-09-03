@@ -8,7 +8,7 @@ Extension for [Backbone.js] to sync with [CouchDB] using [nano] on [Node.js].
  [nano]: https://github.com/dscape/nano
  [Node.js]: http://nodejs.org/
 
-### Installation
+### Install
 
     npm install bbnano
 
@@ -17,7 +17,10 @@ Extension for [Backbone.js] to sync with [CouchDB] using [nano] on [Node.js].
     var nano = require('nano')('http://localhost:5984/foo');
     var bbnano = require('bbnano')(nano);
 
-    var doc = new bbnano.Model({
-        message: 'Hello world!'
-    });
-    doc.save();
+    var doc = new bbnano.Model();
+    doc.save({ message: 'Hello world!' });
+
+### Run tests
+
+    curl -X PUT http://localhost:5984/bbnano_test
+    npm test

@@ -10,5 +10,12 @@
     },
     "dependencies": {
         "backbone": "0.9"
+    },
+    "devDependencies": {
+        "nano": "3",
+        "tap": "0.3"
+    },
+    "scripts": {
+        "test": "tap tests/*.js"
     }
 }
