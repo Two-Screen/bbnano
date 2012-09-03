@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - 0.8
+services:
+  - couchdb
+before_script:
+  - curl -X PUT localhost:5984/bbnano_test
+notifications:
+  email:
+    - stephan@angrybytes.com
