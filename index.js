@@ -1,21 +1,13 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-// Helper that gets the database from a model.
-var getDatabase = function(obj) {
-    if (typeof(obj.database) === 'function')
-        return obj.database();
-    else
-        return obj.database;
-};
-
 // A model subclass that uses our sync.
 var Model = Backbone.Model.extend({
     // Use the collection database by default. Override this and set it to a
     // function or instance of a database to use another.
     database: function() {
         if (this.collection) {
-            return getDatabase(this.collection);
+            return _.result(this.collection, 'database');
         }
     },
 
@@ -24,7 +16,7 @@ var Model = Backbone.Model.extend({
 
     // Override sync with ours.
     sync: function(method, model, options) {
-        var db = getDatabase(model);
+        var db = _.result(model, 'database');
 
         var success = options.success || function() {};
         var error = options.error || function() {};
@@ -70,7 +62,7 @@ var Collection = Backbone.Collection.extend({
 
     // Override sync with ours.
     sync: function(method, model, options) {
-        var db = getDatabase(model);
+        var db = _.result(model, 'database');
 
         var success = options.success || function() {};
         var error = options.error || function() {};
