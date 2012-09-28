@@ -1,3 +1,4 @@
+var _ = require('underscore');
 var Backbone = require('backbone');
 
 // Helper that gets the database from a model.
@@ -59,7 +60,12 @@ var Collection = Backbone.Collection.extend({
     // The call to read all the documents. You usually want to override this
     // with a call to `db.view()` instead.
     read: function(db, callback) {
-        db.list(callback);
+        db.list({ include_docs: true }, callback);
+    },
+
+    // Provide a default `parse` override that extracts documents.
+    parse: function(list) {
+        return _.pluck(list, 'doc');
     },
 
     // Override sync with ours.

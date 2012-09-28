@@ -9,6 +9,7 @@
         "url": "git://github.com/Two-Screen/bbnano.git"
     },
     "dependencies": {
+        "underscore": "1",
         "backbone": "0.9"
     },
     "devDependencies": {
