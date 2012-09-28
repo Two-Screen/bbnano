@@ -56,8 +56,8 @@ var Collection = Backbone.Collection.extend({
     },
 
     // Provide a default `parse` override that extracts documents.
-    parse: function(list) {
-        return _.pluck(list, 'doc');
+    parse: function(res) {
+        return _.pluck(res.rows, 'doc');
     },
 
     // Override sync with ours.
@@ -70,7 +70,7 @@ var Collection = Backbone.Collection.extend({
         switch (method) {
         case 'read':
             model.read(db, function(err, res) {
-                err ? error(err) : success(res.rows);
+                err ? error(err) : success(res);
             });
             break;
         }
