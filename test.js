@@ -22,7 +22,7 @@ var callbackOpts = function(t, message, callback) {
 };
 
 test('basic usage', function(t) {
-    t.plan(14);
+    t.plan(15);
 
     var collection = new bbnano.Collection();
     var model = new bbnano.Model();
@@ -53,6 +53,7 @@ test('basic usage', function(t) {
     function fetchAfterInsert() {
         collection.fetch(callbackOpts(t, 'fetch after insert', function() {
             t.is(collection.length, 1, 'collection must have one model');
+            t.is(collection.at(0).get('test'), 'foo', 'attribute must match');
             update();
         }));
     }
