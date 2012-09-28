@@ -69,7 +69,7 @@ test('basic usage', function(t) {
 
         function fin() {
             t.is(model.id, id, 'ID must not change after update');
-            t.isNot(model.rev, rev, 'rev must change after update');
+            t.isNot(model.get('_rev'), rev, 'rev must change after update');
             destroy();
         }
     }
