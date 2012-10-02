@@ -2,7 +2,7 @@
     "name": "bbnano",
     "description": "Backbone.js sync for CouchDB using nano",
     "author": "Stéphan Kochen <stephan@kochen.nl>",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "homepage": "https://github.com/Two-Screen/bbnano",
     "repository": {
         "type": "git",
