@@ -14,6 +14,9 @@ var Model = Backbone.Model.extend({
     // Use `_id` as the identifier, to match CouchDB.
     idAttribute: '_id',
 
+    // Whether it's okay if the record is missing.
+    allowMissing: true,
+
     // Override sync with ours.
     sync: function(method, model, options) {
         var db = _.result(model, 'database');
@@ -24,7 +27,13 @@ var Model = Backbone.Model.extend({
         switch (method) {
         case 'read':
             db.get(model.id, function(err, doc) {
-                err ? error(err) : success(doc);
+                if (!err) {
+                    return success(doc);
+                }
+                if (err.error === 'not_found' && model.allowMissing) {
+                    return success({});
+                }
+                error(err);
             });
             break;
 
