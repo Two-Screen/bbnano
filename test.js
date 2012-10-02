@@ -12,21 +12,32 @@ var callbackOpts = function(t, message, callback) {
     return {
         success: function() {
             t.pass(message);
-            callback();
+            if (callback) {
+                callback();
+            }
         },
         error: function(err) {
             t.error(err, message);
-            callback();
+            if (callback) {
+                callback();
+            }
         }
     };
 };
 
-test('basic usage', function(t) {
+test('collection tests', function(t) {
     t.plan(15);
 
     var collection = new bbnano.Collection();
     var model = new bbnano.Model();
     fetchBeforeInsert();
+
+    function fetchBeforeInsert() {
+        collection.fetch(callbackOpts(t, 'fetch before insert', function() {
+            t.is(collection.length, 0, 'collection must be empty');
+            insert();
+        }));
+    }
 
     function fetchBeforeInsert() {
         collection.fetch(callbackOpts(t, 'fetch before insert', function() {
@@ -90,5 +101,41 @@ test('basic usage', function(t) {
         collection.fetch(callbackOpts(t, 'fetch after destroy', function() {
             t.is(collection.length, 0, 'collection must be empty');
         }));
+    }
+});
+
+test('model tests', function(t) {
+    t.plan(7);
+
+    var model = new bbnano.Model({ _id: 'foobar' });
+    fetchBeforeInsert();
+
+    function fetchBeforeInsert() {
+        model.fetch(callbackOpts(t, 'fetch before insert', function() {
+            t.notOk(model.has('_rev'), 'model shouldn\'t have a rev');
+            insert();
+        }));
+    }
+
+    function insert() {
+        var res = model.save({ test: 'foo' }, callbackOpts(t, 'insert', fin));
+        if (res === false) {
+            t.fail('insert');
+            fin();
+        }
+
+        function fin() {
+            t.ok(model.has('_id'), 'must have an ID after insert');
+            t.ok(model.has('_rev'), 'must have a rev after insert');
+            t.is(model.id, model.get('_id'), 'idAttribute is _id');
+            destroy();
+        }
+    }
+
+    function destroy() {
+        var res = model.destroy(callbackOpts(t, 'destroy'));
+        if (res === false) {
+            t.fail('destroy');
+        }
     }
 });
