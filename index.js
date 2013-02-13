@@ -28,25 +28,37 @@ var Model = Backbone.Model.extend({
         case 'read':
             db.get(model.id, function(err, doc) {
                 if (!err) {
-                    return success(doc);
+                    success(model, doc, options);
                 }
-                if (err.error === 'not_found' && model.allowMissing) {
-                    return success({});
+                else if (err.error === 'not_found' && model.allowMissing) {
+                    success(model, {}, options);
                 }
-                error(err);
+                else {
+                    error(err);
+                }
             });
             break;
 
         case 'create':
         case 'update':
             db.insert(model.toJSON(), function(err, res) {
-                err ? error(err) : success({ _id: res.id, _rev: res.rev });
+                if (err) {
+                    error(model, err, options);
+                }
+                else {
+                    success(model, { _id: res.id, _rev: res.rev }, options);
+                }
             });
             break;
 
         case 'delete':
             db.destroy(model.id, model.get('_rev'), function(err, res) {
-                err ? error(err) : success({ _id: res.id, _rev: res.rev });
+                if (err) {
+                    error(model, err, options);
+                }
+                else {
+                    success(model, { _id: res.id, _rev: res.rev }, options);
+                }
             });
             break;
         }
@@ -79,7 +91,10 @@ var Collection = Backbone.Collection.extend({
         switch (method) {
         case 'read':
             model.read(db, function(err, res) {
-                err ? error(err) : success(res);
+                if (err)
+                    error(model, err, options);
+                else
+                    success(model, res, options);
             });
             break;
         }
